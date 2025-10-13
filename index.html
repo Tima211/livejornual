@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Живой журнал: Сергей Есенин</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #f9f3e9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232c3e50"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%2334495e" stroke-width="1"/></svg>');
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #bdc3c7;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            top: 20px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: -10px;
+            top: 20px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timeline-date::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            left: -10px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-date::before {
+            left: auto;
+            right: -10px;
+        }
+        
+        .poem {
+            font-style: italic;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            color: #555;
+        }
+        
+        .quote {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+        }
+        
+        .character {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .character-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #e74c3c;
+        }
+        
+        .character-info {
+            flex: 1;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .nav-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -10px;
+                right: auto;
+            }
+            
+            .timeline-date::before {
+                left: 21px;
+            }
+            
+            .timeline-item:nth-child(even) .timeline-date::before {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Сергей Есенин</h1>
+        <p class="subtitle">Живой журнал: жизнь и творчество великого русского поэта</p>
+    </header>
+    
+    <div class="container">
+        <div class="timeline">
+            <!-- Детство и юность -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1895-1912</div>
+                    <h2>Детство и юность</h2>
+                    <img src="https://vverh-dm.ru/image/catalog/2018/novosti/9_sentjabr/05.09.2018_esenin/sergei-aleksandrovich-esenin-1895-1925.jpeg/600x200/4a6572/ffffff?text=Детство+Есенина" alt="Детство Есенина" class="timeline-img">
+                    <p>Сергей Есенин родился 3 октября 1895 года в селе Константиново Рязанской губернии. С ранних лет воспитывался у деда по материнской линии.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=Е" alt="Есенин в детстве" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Сергей Есенин (детство)</div>
+                            <p>Будущий поэт в детские годы</p>
+                        </div>
+                    </div>
+                    
+                    <div class="poem">
+                        Низкий дом с голубыми ставнями,
+
+                        Не забыть мне тебя никогда.
+
+                        Слишком были такими недавними
+
+                        Отзвучавшие в сумрак года...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Начало творческого пути -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1912-1915</div>
+                    <h2>Начало творческого пути</h2>
+                    <img src="https://via.placeholder.com/600x200/3498db/ffffff?text=Начало+творчества" alt="Начало творческого пути" class="timeline-img">
+                    <p>В 1912 году Есенин окончил учительскую школу и переехал в Москву, а затем в Петроград, где состоялась его судьбоносная встреча с Александром Блоком.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/3498db/ffffff?text=Б" alt="Александр Блок" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Александр Блок</div>
+                            <p>Поэт, оказавший значительное влияние на раннее творчество Есенина</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quote">
+                        "Днем у меня рязанский парень со стихами. Крестьянин Рязанской губернии, 19 лет. Стихи свежие, чистые, голосистые, многословные."
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Первая книга и признание -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1915-1916</div>
+                    <h2>Первая книга и признание</h2>
+                    <img src="https://via.placeholder.com/600x200/2ecc71/ffffff?text=Радуница" alt="Книга Радуница" class="timeline-img">
+                    <p>В 1915 году вышла первая книга поэта «Радуница», принесшая ему известность. Вместе с Николаем Клюевым Есенин выступал перед императрицей и ее дочерьми.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/2ecc71/ffffff?text=К" alt="Николай Клюев" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Николай Клюев</div>
+                            <p>Поэт, с которым Есенин давал совместные выступления</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Революция и имажинизм -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1917-1921</div>
+                    <h2>Революция и имажинизм</h2>
+                    <img src="https://via.placeholder.com/600x200/e67e22/ffffff?text=Революция" alt="Революция" class="timeline-img">
+                    <p>Революция 1917 года изменила жизнь Есенина. Вместе с Анатолием Мариенгофом и другими поэтами он создал течение имажинизм.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/e67e22/ffffff?text=М" alt="Анатолий Мариенгоф" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Анатолий Мариенгоф</div>
+                            <p>Поэт, сооснователь имажинизма вместе с Есениным</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Айседора Дункан -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1921-1923</div>
+                    <h2>Айседора Дункан</h2>
+                    <img src="https://via.placeholder.com/600x200/9b59b6/ffffff?text=Айседора+Дункан" alt="Айседора Дункан" class="timeline-img">
+                    <p>В 1921 году Есенин познакомился с известной американской танцовщицей Айседорой Дункан. Их бурный роман и брак привлекли внимание общественности.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/9b59b6/ffffff?text=Д" alt="Айседора Дункан" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Айседора Дункан</div>
+                            <p>Американская танцовщица, жена Есенина</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quote">
+                        "Он читал мне свои стихи, - я ничего не поняла, но я слышу, что это музыка и что стихи эти писал гений!"
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Путешествие в Америку -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1922-1923</div>
+                    <h2>Путешествие в Америку</h2>
+                    <img src="https://via.placeholder.com/600x200/34495e/ffffff?text=Америка" alt="Путешествие в Америку" class="timeline-img">
+                    <p>В 1922 году Есенин и Дункан отправились в путешествие по Европе и Америке. Поэт был разочарован американским обществом, которое он назвал "жадной пастью".</p>
+                    
+                    <div class="poem">
+                        Места нет здесь мечтам и химерам,
+
+                        Отшумела тех лет пора.
+
+                        Всё курьеры, курьеры, курьеры,
+
+                        Маклера, маклера, маклера.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Кавказ и Шаганэ -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1924-1925</div>
+                    <h2>Кавказ и Шаганэ</h2>
+                    <img src="https://via.placeholder.com/600x200/1abc9c/ffffff?text=Кавказ" alt="Кавказ" class="timeline-img">
+                    <p>На Кавказе Есенин познакомился с учительницей Шаганэ Тертерян, которая стала музой для цикла "Персидские мотивы".</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/1abc9c/ffffff?text=Ш" alt="Шаганэ Тертерян" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Шаганэ Тертерян</div>
+                            <p>Учительница, муза цикла "Персидские мотивы"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="poem">
+                        Шаганэ ты моя, Шаганэ!
+
+                        Потому, что я с севера, что ли,
+
+                        Я готов рассказать тебе поле,
+
+                        Про волнистую рожь при луне.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Маяковский -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1920-е годы</div>
+                    <h2>Есенин и Маяковский</h2><img src="https://via.placeholder.com/600x200/e74c3c/ffffff?text=Есенин+и+Маяковский" alt="Есенин и Маяковский" class="timeline-img">
+                    <p>Отношения Есенина и Маяковского были сложными, но полными взаимного уважения к таланту друг друга.</p>
+                    
+                    <div class="character">
+                        <img src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=М" alt="Владимир Маяковский" class="character-img">
+                        <div class="character-info">
+                            <div class="character-name">Владимир Маяковский</div>
+                            <p>Поэт, "заклятый друг" Есенина</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quote">
+                        "Чертовски талантлив" - так Маяковский отзывался о Есенине.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Последние годы -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">1925</div>
+                    <h2>Последние годы</h2>
+                    <img src="https://via.placeholder.com/600x200/7f8c8d/ffffff?text=Англетер" alt="Гостиница Англетер" class="timeline-img">
+                    <p>Жизнь Сергея Есенина трагически оборвалась 27 декабря 1925 года в гостинице "Англетер" в Ленинграде.</p>
+                    
+                    <div class="poem">
+                        До свиданья, друг мой, до свиданья.
+
+                        Милый мой, ты у меня в груди.
+
+                        Предназначенное расставанье
+
+                        Обещает встречу впереди.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" onclick="scrollToTop()">Наверх</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Живой журнал: Сергей Есенин</p>
+        <p>© 2025 Литературно-музыкальный вечер. Автор: Тимофеева Анастасия 11Б.</p>
+    </footer>
+
+    <script>
+        // Анимация появления элементов при прокрутке
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkVisibility() {
+                timelineItems.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) {
+                        item.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Проверяем видимость при загрузке и прокрутке
+            checkVisibility();
+            window.addEventListener('scroll', checkVisibility);
+        });
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
