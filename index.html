@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Живой журнал: Сергей Есенин</title>
+    <title>Сергей Есенин: Живой журнал</title>
     <style>
         * {
             margin: 0;
@@ -13,502 +13,401 @@
         }
         
         body {
-            background-color: #f9f3e9;
+            background-color: #f5f5f5;
             color: #333;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
             position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        .slide-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #8B4513;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .slide-content {
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .media-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .media-container img {
+            max-width: 100%;
+            max-height: 60vh;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
             overflow: hidden;
         }
         
-        header::before {
-            content: "";
+        .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232c3e50"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%2334495e" stroke-width="1"/></svg>');
-            z-index: -1;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            font-style: italic;
-            opacity: 0.9;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .timeline {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            background-color: #bdc3c7;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -3px;
-        }
-        
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-        
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-        
-        .timeline-item:nth-child(odd) .timeline-content::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            top: 20px;
-            background-color: white;
-            transform: rotate(45deg);
-            box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-item:nth-child(even) .timeline-content::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            left: -10px;
-            top: 20px;
-            background-color: white;
-            transform: rotate(45deg);
-            box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .timeline-date {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .timeline-date::before {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background-color: #e74c3c;
-            border-radius: 50%;
-            position: absolute;
-            left: -10px;
-            z-index: 1;
-        }
-        
-        .timeline-item:nth-child(even) .timeline-date::before {
-            left: auto;
-            right: -10px;
-        }
-        
-        .poem {
-            font-style: italic;
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #e74c3c;
-            color: #555;
-        }
-        
-        .quote {
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #f0f7ff;
-            border-left: 4px solid #3498db;
-            color: #2c3e50;
-        }
-        
-        .character {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-        
-        .character-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-            border: 3px solid #e74c3c;
-        }
-        
-        .character-info {
-            flex: 1;
-        }
-        
-        .character-name {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-        
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
         }
         
         .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            margin: 2rem 0;
+            gap: 20px;
+            z-index: 100;
         }
         
         .nav-btn {
-            background-color: #e74c3c;
+            padding: 10px 20px;
+            background-color: #8B4513;
             color: white;
             border: none;
-            padding: 10px 20px;
-            margin: 0 10px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
             transition: background-color 0.3s;
         }
         
         .nav-btn:hover {
-            background-color: #c0392b;
+            background-color: #A0522D;
         }
         
-        @media screen and (max-width: 768px) {
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-            }
-            
-            .timeline-item:nth-child(odd) .timeline-content::after,
-            .timeline-item:nth-child(even) .timeline-content::after {
-                left: -10px;
-                right: auto;
-            }
-            
-            .timeline-date::before {
-                left: 21px;
-            }
-            
-            .timeline-item:nth-child(even) .timeline-date::before {
-                left: 21px;
-            }
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            color: #8B4513;
+        }
+        
+        .poem {
+            font-style: italic;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Сергей Есенин</h1>
-        <p class="subtitle">Живой журнал: жизнь и творчество великого русского поэта</p>
-    </header>
-    
-    <div class="container">
-        <div class="timeline">
-            <!-- Детство и юность -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1895-1912</div>
-                    <h2>Детство и юность</h2>
-                    <img src="https://vverh-dm.ru/image/catalog/2018/novosti/9_sentjabr/05.09.2018_esenin/sergei-aleksandrovich-esenin-1895-1925.jpeg/600x200/4a6572/ffffff?text=Детство+Есенина" alt="Детство Есенина" class="timeline-img">
-                    <p>Сергей Есенин родился 3 октября 1895 года в селе Константиново Рязанской губернии. С ранних лет воспитывался у деда по материнской линии.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=Е" alt="Есенин в детстве" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Сергей Есенин (детство)</div>
-                            <p>Будущий поэт в детские годы</p>
-                        </div>
-                    </div>
-                    
-                    <div class="poem">
-                        Низкий дом с голубыми ставнями,
-
-                        Не забыть мне тебя никогда.
-
-                        Слишком были такими недавними
-
-                        Отзвучавшие в сумрак года...
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Начало творческого пути -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1912-1915</div>
-                    <h2>Начало творческого пути</h2>
-                    <img src="https://via.placeholder.com/600x200/3498db/ffffff?text=Начало+творчества" alt="Начало творческого пути" class="timeline-img">
-                    <p>В 1912 году Есенин окончил учительскую школу и переехал в Москву, а затем в Петроград, где состоялась его судьбоносная встреча с Александром Блоком.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/3498db/ffffff?text=Б" alt="Александр Блок" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Александр Блок</div>
-                            <p>Поэт, оказавший значительное влияние на раннее творчество Есенина</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quote">
-                        "Днем у меня рязанский парень со стихами. Крестьянин Рязанской губернии, 19 лет. Стихи свежие, чистые, голосистые, многословные."
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Первая книга и признание -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1915-1916</div>
-                    <h2>Первая книга и признание</h2>
-                    <img src="https://via.placeholder.com/600x200/2ecc71/ffffff?text=Радуница" alt="Книга Радуница" class="timeline-img">
-                    <p>В 1915 году вышла первая книга поэта «Радуница», принесшая ему известность. Вместе с Николаем Клюевым Есенин выступал перед императрицей и ее дочерьми.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/2ecc71/ffffff?text=К" alt="Николай Клюев" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Николай Клюев</div>
-                            <p>Поэт, с которым Есенин давал совместные выступления</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Революция и имажинизм -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1917-1921</div>
-                    <h2>Революция и имажинизм</h2>
-                    <img src="https://via.placeholder.com/600x200/e67e22/ffffff?text=Революция" alt="Революция" class="timeline-img">
-                    <p>Революция 1917 года изменила жизнь Есенина. Вместе с Анатолием Мариенгофом и другими поэтами он создал течение имажинизм.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/e67e22/ffffff?text=М" alt="Анатолий Мариенгоф" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Анатолий Мариенгоф</div>
-                            <p>Поэт, сооснователь имажинизма вместе с Есениным</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Айседора Дункан -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1921-1923</div>
-                    <h2>Айседора Дункан</h2>
-                    <img src="https://via.placeholder.com/600x200/9b59b6/ffffff?text=Айседора+Дункан" alt="Айседора Дункан" class="timeline-img">
-                    <p>В 1921 году Есенин познакомился с известной американской танцовщицей Айседорой Дункан. Их бурный роман и брак привлекли внимание общественности.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/9b59b6/ffffff?text=Д" alt="Айседора Дункан" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Айседора Дункан</div>
-                            <p>Американская танцовщица, жена Есенина</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quote">
-                        "Он читал мне свои стихи, - я ничего не поняла, но я слышу, что это музыка и что стихи эти писал гений!"
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Путешествие в Америку -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1922-1923</div>
-                    <h2>Путешествие в Америку</h2>
-                    <img src="https://via.placeholder.com/600x200/34495e/ffffff?text=Америка" alt="Путешествие в Америку" class="timeline-img">
-                    <p>В 1922 году Есенин и Дункан отправились в путешествие по Европе и Америке. Поэт был разочарован американским обществом, которое он назвал "жадной пастью".</p>
-                    
-                    <div class="poem">
-                        Места нет здесь мечтам и химерам,
-
-                        Отшумела тех лет пора.
-
-                        Всё курьеры, курьеры, курьеры,
-
-                        Маклера, маклера, маклера.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Кавказ и Шаганэ -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1924-1925</div>
-                    <h2>Кавказ и Шаганэ</h2>
-                    <img src="https://via.placeholder.com/600x200/1abc9c/ffffff?text=Кавказ" alt="Кавказ" class="timeline-img">
-                    <p>На Кавказе Есенин познакомился с учительницей Шаганэ Тертерян, которая стала музой для цикла "Персидские мотивы".</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/1abc9c/ffffff?text=Ш" alt="Шаганэ Тертерян" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Шаганэ Тертерян</div>
-                            <p>Учительница, муза цикла "Персидские мотивы"</p>
-                        </div>
-                    </div>
-                    
-                    <div class="poem">
-                        Шаганэ ты моя, Шаганэ!
-
-                        Потому, что я с севера, что ли,
-
-                        Я готов рассказать тебе поле,
-
-                        Про волнистую рожь при луне.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Маяковский -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1920-е годы</div>
-                    <h2>Есенин и Маяковский</h2><img src="https://via.placeholder.com/600x200/e74c3c/ffffff?text=Есенин+и+Маяковский" alt="Есенин и Маяковский" class="timeline-img">
-                    <p>Отношения Есенина и Маяковского были сложными, но полными взаимного уважения к таланту друг друга.</p>
-                    
-                    <div class="character">
-                        <img src="https://via.placeholder.com/100x100/e74c3c/ffffff?text=М" alt="Владимир Маяковский" class="character-img">
-                        <div class="character-info">
-                            <div class="character-name">Владимир Маяковский</div>
-                            <p>Поэт, "заклятый друг" Есенина</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quote">
-                        "Чертовски талантлив" - так Маяковский отзывался о Есенине.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Последние годы -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">1925</div>
-                    <h2>Последние годы</h2>
-                    <img src="https://via.placeholder.com/600x200/7f8c8d/ffffff?text=Англетер" alt="Гостиница Англетер" class="timeline-img">
-                    <p>Жизнь Сергея Есенина трагически оборвалась 27 декабря 1925 года в гостинице "Англетер" в Ленинграде.</p>
-                    
-                    <div class="poem">
-                        До свиданья, друг мой, до свиданья.
-
-                        Милый мой, ты у меня в груди.
-
-                        Предназначенное расставанье
-
-                        Обещает встречу впереди.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="navigation">
-            <button class="nav-btn" onclick="scrollToTop()">Наверх</button>
-        </div>
+    <!-- Слайд 1: Заглавный -->
+    <div class="slide active" id="slide1" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://example.com/esenin-bg1.jpg'); background-size: cover;">
+        <h1 class="slide-title">Сергей Есенин: Живой журнал</h1>
+        <div class="media-container">
+            <img src="https://cdn.fishki.net/upload/post/201510/03/1683905/article107220.jpg" alt="Сергей Есенин">
+        </div><div class="slide-counter">1 / 15</div>
     </div>
     
-    <footer>
-        <p>Живой журнал: Сергей Есенин</p>
-        <p>© 2025 Литературно-музыкальный вечер. Автор: Тимофеева Анастасия 11Б.</p>
-    </footer>
+    <!-- Слайд 2: Детство и бабушка -->
+    <div class="slide" id="slide2" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://example.com/village-bg.jpg'); background-size: cover;">
+        <h2 class="slide-title">Детство в Константиново</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/esenin-childhood.jpg" alt="Есенин в детстве">
+                <img src="https://example.com/esenin-grandmother.jpg" alt="Бабушка Есенина">
+            </div>
+        </div>
+        <div class="slide-counter">2 / 15</div>
+    </div>
+    
+    <!-- Слайд 3: Ранние стихи -->
+    <div class="slide" id="slide3" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://example.com/russian-landscape.jpg'); background-size: cover;">
+        <h2 class="slide-title">Раннее творчество</h2>
+        <div class="slide-content">
+            <div class="poem">
+                Всё живое особой метой
 
+                Отличается с ранних пор.
+
+                Если не был бы я поэтом,
+
+                То, наверно, был мошенник и вор.
+            </div>
+            <div class="media-container">
+                <img src="https://example.com/esenin-young.jpg" alt="Молодой Есенин">
+            </div>
+        </div>
+        <div class="slide-counter">3 / 15</div>
+    </div>
+    
+    <!-- Слайд 4: Встреча с Блоком -->
+    <div class="slide" id="slide4">
+        <h2 class="slide-title">Встреча с Александром Блоком</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/alexander-block.jpg" alt="Александр Блок">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_BLOCK" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">4 / 15</div>
+    </div>
+    
+    <!-- Слайд 5: Первая книга -->
+    <div class="slide" id="slide5">
+        <h2 class="slide-title">Первая книга «Радуница»</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/radunica-book.jpg" alt="Книга Радуница">
+                <img src="https://example.com/esenin-1915.jpg" alt="Есенин в 1915 году">
+            </div>
+        </div>
+        <div class="slide-counter">5 / 15</div>
+    </div>
+    
+    <!-- Слайд 6: Стихи о Родине -->
+    <div class="slide" id="slide6" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://example.com/russian-nature.jpg'); background-size: cover;">
+        <h2 class="slide-title">Любовь к Родине</h2>
+        <div class="slide-content">
+            <div class="poem">
+                Край любимый! Сердцу снятся
+
+                Скирды солнца в водах лонных,
+
+                Я хотел бы затеряться
+
+                В зеленях твоих стозвонных.
+            </div>
+            <div class="media-container">
+                <img src="https://example.com/russian-village.jpg" alt="Русская деревня">
+            </div>
+        </div>
+        <div class="slide-counter">6 / 15</div>
+    </div>
+    
+    <!-- Слайд 7: Айседора Дункан -->
+    <div class="slide" id="slide7">
+        <h2 class="slide-title">Айседора Дункан</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/isadora-duncan.jpg" alt="Айседора Дункан">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_DUNCAN" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">7 / 15</div>
+    </div>
+    
+    <!-- Слайд 8: Путешествие в Америку -->
+    <div class="slide" id="slide8">
+        <h2 class="slide-title">Путешествие в Америку</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/esenin-america.jpg" alt="Есенин в Америке">
+                <img src="https://example.com/1920s-america.jpg" alt="Америка 1920-х">
+            </div>
+        </div>
+        <div class="slide-counter">8 / 15</div>
+    </div>
+    
+    <!-- Слайд 9: Кавказ и Шаганэ -->
+    <div class="slide" id="slide9">
+        <h2 class="slide-title">Кавказ и Шаганэ</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/shagane.jpg" alt="Шаганэ Тальян">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_SHAGANE" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">9 / 15</div>
+    </div>
+    
+    <!-- Слайд 10: Маяковский -->
+    <div class="slide" id="slide10">
+        <h2 class="slide-title">Есенин и Маяковский</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/mayakovsky.jpg" alt="Владимир Маяковский">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_MAYAKOVSKY" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">10 / 15</div>
+    </div>
+    
+    <!-- Слайд 11: Мать поэта -->
+    <div class="slide" id="slide11">
+        <h2 class="slide-title">Мать поэта</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/esenin-mother.jpg" alt="Татьяна Федоровна Есенина">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_MOTHER" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="slide-counter">11 / 15</div>
+    </div>
+    
+    <!-- Слайд 12: Имажинизм -->
+    <div class="slide" id="slide12">
+        <h2 class="slide-title">Имажинизм</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/imagism-group.jpg" alt="Группа имажинистов">
+                <img src="https://example.com/esenin-imagism.jpg" alt="Есенин и имажинисты">
+            </div>
+        </div>
+        <div class="slide-counter">12 / 15</div>
+    </div>
+    
+    <!-- Слайд 13: Англетер -->
+    <div class="slide" id="slide13">
+        <h2 class="slide-title">Гостиница «Англетер»</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/angleter-hotel.jpg" alt="Гостиница Англетер">
+                <img src="https://example.com/esenin-last.jpg" alt="Последние фото Есенина">
+            </div>
+        </div>
+        <div class="slide-counter">13 / 15</div>
+    </div>
+    
+    <!-- Слайд 14: Последнее стихотворение -->
+    <div class="slide" id="slide14" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://example.com/winter-bg.jpg'); background-size: cover; color: white;">
+        <h2 class="slide-title" style="color: white;">Последнее стихотворение</h2>
+        <div class="slide-content">
+            <div class="poem" style="background-color: rgba(0,0,0,0.5); color: white;">
+                До свиданья, друг мой, до свиданья.
+
+                Милый мой, ты у меня в груди.
+
+                Предназначенное расставанье
+
+                Обещает встречу впереди.
+            </div>
+            <div class="media-container">
+                <img src="https://example.com/esenin-last-poem.jpg" alt="Рукопись последнего стихотворения">
+            </div>
+        </div>
+        <div class="slide-counter">14 / 15</div>
+    </div>
+    
+    <!-- Слайд 15: Наследие -->
+    <div class="slide" id="slide15" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://example.com/esenin-monument.jpg'); background-size: cover;">
+        <h2 class="slide-title">Наследие Есенина</h2>
+        <div class="slide-content">
+            <div class="media-container">
+                <img src="https://example.com/esenin-legacy.jpg" alt="Наследие Есенина">
+                <audio controls class="audio-player">
+                    <source src="https://example.com/ne-zhaleyu.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио элемент.
+                </audio>
+            </div>
+        </div>
+        <div class="slide-counter">15 / 15</div>
+    </div>
+    
+    <!-- Навигация -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn">Назад</button>
+        <button class="nav-btn" id="nextBtn">Вперед</button>
+    </div>
+    
     <script>
-        // Анимация появления элементов при прокрутке
         document.addEventListener('DOMContentLoaded', function() {
-            const timelineItems = document.querySelectorAll('.timeline-item');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
             
-            function checkVisibility() {
-                timelineItems.forEach(item => {
-                    const rect = item.getBoundingClientRect();
-                    if (rect.top < window.innerHeight - 100) {
-                        item.classList.add('visible');
-                    }
-                });
-            }
+            // Показать первый слайд
+            showSlide(currentSlide);
             
-            // Проверяем видимость при загрузке и прокрутке
-            checkVisibility();
-            window.addEventListener('scroll', checkVisibility);
-        });
-        
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            // Обработчики для кнопок навигации
+            nextBtn.addEventListener('click', function() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
             });
-        }
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            // Обработчики для клавиатуры
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    if (currentSlide < slides.length - 1) {
+                        currentSlide++;
+                        showSlide(currentSlide);
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        showSlide(currentSlide);
+                    }
+                }
+            });
+            
+            // Функция показа слайда
+            function showSlide(index) {
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                slides[index].classList.add('active');
+            }
+        });
     </script>
 </body>
 </html>
