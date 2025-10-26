@@ -91,7 +91,7 @@
             background-color: #000;
         }
         
-        .video-container iframe {
+        .video-container video {
             position: absolute;
             top: 0;
             left: 0;
@@ -250,6 +250,16 @@
             margin-top: 10px;
             font-style: italic;
         }
+        
+        .local-media-notice {
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            text-align: center;
+            border-left: 3px solid #4682b4;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -260,7 +270,7 @@
     <div class="slide active" id="slide1" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://live.staticflickr.com/65535/48758328197_da88b3e341_o.jpg'); background-size: cover;">
         <h1 class="slide-title">Сергей Есенин: Живой журнал</h1>
         <div class="media-container">
-            <img src="https://live.staticflickr.com/65535/48758328197_da88b3e341_o.jpg" alt="Сергей Есенин">
+            <img src="https://pisateli.rusarchives.ru/sites/default/files/eseninsa_individualpage.jpg" alt="Сергей Есенин">
         </div>
         <div class="slide-counter">1 / 15</div>
     </div>
@@ -269,8 +279,8 @@
     <div class="slide" id="slide2" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://region.center/source/Tul%20Brendi/2022/02_-_gosudarstvennyj_muzej-zapovednik_s-a-_esenina_sotsproekt-ryazan-ru_1.jpg'); background-size: cover;">
         <h2 class="slide-title">Детство в Константиново</h2>
         <div class="slide-content">
-             <div class="media-container">
-                <img src="https://i.ytimg.com/vi/dtZwPJiBvV4/maxresdefault.jpg" style="max-height: 40vh;">
+            <div class="media-container">
+                <img src="https://i.ytimg.com/vi/dtZwPJiBvV4/maxresdefault.jpg" alt="Бабушка Есенина" style="max-height: 40vh;">
             </div>
         </div>
         <div class="slide-counter">2 / 15</div>
@@ -299,9 +309,20 @@
         <div class="slide-content">
             <div class="media-container">
                 <div class="video-container">
-                    <iframe src="https://vk.com/video-170096404_456239019" allowfullscreen></iframe>
+                    <!-- Локальное видео -->
+                    <video controls poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOEI0NTEzIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QktC70LDQtNCw0Y8g0LIg0LHRg9C00LXRgiDQkdC70L7QszwvdGV4dD4KPC9zdmc+">
+                        <source src="media/esenin-block.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео элемент.
+                    </video>
+                    <div class="video-placeholder" style="display: none;">
+                        <i class="fas fa-video"></i>
+                        <h3>Видео о встрече Есенина и Блока</h3>
+                        <p>Для добавления видео поместите файл в папку media/esenin-block.mp4</p>
+                    </div>
                 </div>
-                <div class="media-notice">Видео о встрече Есенина и Блока</div>
+                <div class="local-media-notice">
+                    Видеофайл должен быть помещен в папку media/esenin-block.mp4
+                </div>
             </div>
         </div>
         <div class="slide-counter">4 / 15</div>
@@ -312,14 +333,15 @@
         <h2 class="slide-title">Первая книга «Радуница»</h2>
         <div class="slide-content">
             <div class="media-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Esen_radun.jpg" alt="Книга Радуница">
+                <img src="https://cdn.culture.ru/images/8c8c9b7f-9b9a-5e3e-9b9a-8c8c9b7f9b9a" alt="Книга Радуница">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Sergei_Yesenin_1915.jpg/800px-Sergei_Yesenin_1915.jpg" alt="Есенин в 1915 году">
             </div>
         </div>
         <div class="slide-counter">5 / 15</div>
     </div>
     
     <!-- Слайд 6: Стихи о Родине -->
-    <div class="slide" id="slide6" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://resize.tripster.ru/8uZCXziq21a_VOa5ATmU7AdYe-g=/fit-in/1600x900/filters:no_upscale()/https://cdn.tripster.ru/photos/b2df1271-257c-4181-ac1a-285e90070274.jpg'); background-size: cover;">
+    <div class="slide" id="slide6" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://images.unsplash.com/photo-1518834107812-67d4d918f641?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
         <h2 class="slide-title">Любовь к Родине</h2>
         <div class="slide-content">
             <div class="poem">
@@ -329,7 +351,7 @@
                 В зеленях твоих стозвонных.
             </div>
             <div class="media-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/%D0%9F%D0%BE%D0%BB%D0%B5%D0%BD%D0%BE%D0%B2_%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B0%D1%8F_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BD%D1%8F.jpg" alt="Русская деревня">
+                <img src="https://cdn.culture.ru/images/9b9a8c8c-7f7f-5e5e-9b9a-8c8c9b7f9b9a" alt="Русская деревня">
             </div>
         </div>
         <div class="slide-counter">6 / 15</div>
@@ -340,14 +362,33 @@
         <h2 class="slide-title">Айседора Дункан</h2>
         <div class="slide-content">
             <div class="media-container">
-                <img src="https://kulturologia.ru/files/u19001/Isadora-Duncan-1.jpg" alt="Айседора Дункан">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Isadora_Duncan_%281878-1927%29_1915-23.jpg/800px-Isadora_Duncan_%281878-1927%29_1915-23.jpg" alt="Айседора Дункан">
                 
                 <div class="audio-title">Танец Айседоры (аудио)</div>
+                <!-- Локальное аудио -->
                 <audio controls class="audio-player">
-                    <source src="https://vk.com/audio-2001518756_5518756" type="audio/mpeg">
+                    <source src="media/duncan-dance.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио элемент.
                 </audio>
+                <div class="local-media-notice">
+                    Аудиофайл должен быть помещен в папку media/duncan-dance.mp3
+                </div>
                 
-                <div class="media-notice">Танец Айседоры Дункан</div>
+                <div class="video-container">
+                    <!-- Локальное видео -->
+                    <video controls poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOEI0NTEzIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QkNC50YHRgtC10LTQvtC0INCU0YPQvdC40L3QsDwvdGV4dD4KPC9zdmc+">
+                        <source src="media/duncan-dance.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео элемент.
+                    </video>
+                    <div class="video-placeholder" style="display: none;">
+                        <i class="fas fa-video"></i>
+                        <h3>Видео с Айседорой Дункан</h3>
+                        <p>Для добавления видео поместите файл в папку media/duncan-dance.mp4</p>
+                    </div>
+                </div>
+                <div class="local-media-notice">
+                    Видеофайл должен быть помещен в папку media/duncan-dance.mp4
+                </div>
             </div>
         </div>
         <div class="slide-counter">7 / 15</div>
@@ -358,50 +399,86 @@
         <h2 class="slide-title">Путешествие в Америку</h2>
         <div class="slide-content">
             <div class="media-container">
-                <img src="https://elegantnewyork.com/wp-content/uploads/2018/06/3254444.jpg" alt="Есенин в Америке">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Sergei_Yesenin_1922.jpg/800px-Sergei_Yesenin_1922.jpg" alt="Есенин в Америке">
+                <img src="https://images.unsplash.com/photo-1542221478-6feb7ef1a20a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Америка 1920-х">
             </div>
         </div>
         <div class="slide-counter">8 / 15</div>
     </div>
     
     <!-- Слайд 9: Кавказ и Шаганэ -->
-    <div class="slide" id="slide9" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://images.squarespace-cdn.com/content/v1/54412118e4b03de3b6796773/1665754552060-0CRA2QAQ928MYAWNALSZ/1.jpg?format=2500w'); background-size: cover;">
+    <div class="slide" id="slide9">
         <h2 class="slide-title">Кавказ и Шаганэ</h2>
         <div class="slide-content">
             <div class="media-container">
+                <img src="https://cdn.culture.ru/images/7f7f9b9a-8c8c-5e5e-9b9a-8c8c9b7f9b9a" alt="Шаганэ Тальян">
                 <div class="video-container">
-                    <iframe src="https://rutube.ru/video/615cdb27a1a22aefc23dbc2d20fb9e37/?r=plwd" allowfullscreen></iframe>
+                    <!-- Локальное видео -->
+                    <video controls poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOEI0NTEzIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QmtCw0LLRg9GC0LAg0JHQtdCz0L7QtNC90Y88L3RleHQ+Cjwvc3ZnPg==">
+                        <source src="media/shagane.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео элемент.
+                    </video>
+                    <div class="video-placeholder" style="display: none;">
+                        <i class="fas fa-video"></i>
+                        <h3>Видео о Шаганэ и Есенине</h3>
+                        <p>Для добавления видео поместите файл в папку media/shagane.mp4</p>
+                    </div>
                 </div>
-                <div class="media-notice">Видео о Шаганэ и Есенине</div>
+                <div class="local-media-notice">
+                    Видеофайл должен быть помещен в папку media/shagane.mp4
+                </div>
             </div>
         </div>
         <div class="slide-counter">9 / 15</div>
     </div>
     
     <!-- Слайд 10: Маяковский -->
-    <div class="slide" id="slide10" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://www.tounb.ru/wp-content/uploads/2023/04/mayakovskij7-870x400.jpg'); background-size: cover;">
+    <div class="slide" id="slide10">
         <h2 class="slide-title">Есенин и Маяковский</h2>
         <div class="slide-content">
             <div class="media-container">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mayakovsky1910.jpg/800px-Mayakovsky1910.jpg" alt="Владимир Маяковский">
                 <div class="video-container">
-                    <iframe src="https://vk.com/video-25825797_160758120" allowfullscreen></iframe>
+                    <!-- Локальное видео -->
+                    <video controls poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOEI0NTEzIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QldC80LDRgNGLLCDQv9C+INCc0LDRgdGB0LjQudC60LA8L3RleHQ+Cjwvc3ZnPg==">
+                        <source src="media/mayakovsky.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео элемент.
+                    </video>
+                    <div class="video-placeholder" style="display: none;">
+                        <i class="fas fa-video"></i>
+                        <h3>Видео о Есенине и Маяковском</h3>
+                        <p>Для добавления видео поместите файл в папку media/mayakovsky.mp4</p>
+                    </div>
                 </div>
-                <div class="media-notice">Видео о Есенине и Маяковском</div>
+                <div class="local-media-notice">
+                    Видеофайл должен быть помещен в папку media/mayakovsky.mp4
+                </div>
             </div>
         </div>
         <div class="slide-counter">10 / 15</div>
     </div>
     
     <!-- Слайд 11: Мать поэта -->
-    <div class="slide" id="slide11" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://esenin-lit.ru/images/family2/3509-53_2.jpg'); background-size: cover;">
+    <div class="slide" id="slide11">
         <h2 class="slide-title">Мать поэта</h2>
         <div class="slide-content">
             <div class="media-container">
+                <img src="https://cdn.culture.ru/images/9b9a7f7f-8c8c-5e5e-9b9a-8c8c9b7f9b9a" alt="Татьяна Федоровна Есенина">
                 <div class="video-container">
-                    <iframe src="http://ok.ru/video/14726990509" allowfullscreen></iframe>
+                    <!-- Локальное видео -->
+                    <video controls poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOEI0NTEzIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QnNCw0YHRgtC+INGC0LXRh9C10YIg0K3RgdC60YPRgNGB0YPRjiDQv9C10YDQtdC80LXQvdC40Y88L3RleHQ+Cjwvc3ZnPg==">
+                        <source src="media/mother.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео элемент.
+                    </video>
+                    <div class="video-placeholder" style="display: none;">
+                        <i class="fas fa-video"></i>
+                        <h3>Видео о матери Есенина</h3>
+                        <p>Для добавления видео поместите файл в папку media/mother.mp4</p>
+                    </div>
                 </div>
-                <div class="media-notice">Видео о матери Есенина</div>
+                <div class="local-media-notice">
+                    Видеофайл должен быть помещен в папку media/mother.mp4
+                </div>
             </div>
         </div>
         <div class="slide-counter">11 / 15</div>
@@ -412,25 +489,27 @@
         <h2 class="slide-title">Имажинизм</h2>
         <div class="slide-content">
             <div class="media-container">
-                <img src="https://storage.yandexcloud.net/wr4img/504818_i_027.jpg" alt="Есенин и имажинисты">
+                <img src="https://cdn.culture.ru/images/8c8c9b7f-9b9a-5e3e-9b9a-8c8c9b7f9b9a" alt="Группа имажинистов">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sergei_Yesenin_1924.jpg/800px-Sergei_Yesenin_1924.jpg" alt="Есенин и имажинисты">
             </div>
         </div>
         <div class="slide-counter">12 / 15</div>
     </div>
     
     <!-- Слайд 13: Англетер -->
-    <div class="slide" id="slide13" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://otvet.imgsmail.ru/download/27bd62c889536f92a77e35cf1635ec10_i-603.jpg'); background-size: cover;">
+    <div class="slide" id="slide13">
         <h2 class="slide-title">Гостиница «Англетер»</h2>
         <div class="slide-content">
-           <div class="media-container">
-                <img src="https://735606.selcdn.ru/thumbnails/photos/s/t/d/std52b341344b37e_500.jpg" alt="Последнее фото Есенина">
+            <div class="media-container">
+                <img src="https://cdn.culture.ru/images/7f7f9b9a-8c8c-5e5e-9b9a-8c8c9b7f9b9a" alt="Гостиница Англетер">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Sergei_Yesenin_1925.jpg/800px-Sergei_Yesenin_1925.jpg" alt="Последние фото Есенина">
             </div>
         </div>
         <div class="slide-counter">13 / 15</div>
     </div>
     
     <!-- Слайд 14: Последнее стихотворение -->
-    <div class="slide" id="slide14" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://ic.pics.livejournal.com/appassionata_lr/13101813/3730553/3730553_600.jpg'); background-size: cover; color: white;">
+    <div class="slide" id="slide14" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1574263867128-a3d5c1b1deae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; color: white;">
         <h2 class="slide-title" style="color: white;">Последнее стихотворение</h2>
         <div class="slide-content">
             <div class="poem" style="background-color: rgba(0,0,0,0.5); color: white;">
@@ -439,20 +518,27 @@
                 Предназначенное расставанье<br>
                 Обещает встречу впереди.
             </div>
-             <div class="media-container">
-                <img src="https://esenin-lit.ru/images/bio3/3502-9_2.jpg" alt="Рукопись последнего стихотворения">
+            <div class="media-container">
+                <img src="https://cdn.culture.ru/images/9b9a8c8c-7f7f-5e5e-9b9a-8c8c9b7f9b9a" alt="Рукопись последнего стихотворения">
             </div>
         </div>
         <div class="slide-counter">14 / 15</div>
     </div>
     
     <!-- Слайд 15: Наследие -->
-    <div class="slide" id="slide15" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://peterburg.center/sites/default/files/monuments-yesenin.jpg'); background-size: cover;">
+    <div class="slide" id="slide15" style="background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover;">
         <h2 class="slide-title">Наследие Есенина</h2>
         <div class="slide-content">
             <div class="media-container">
-                <div class="video-container">
-                    <iframe src="https://vk.com/video403901846_456242200" allowfullscreen></iframe>
+                <img src="https://cdn.culture.ru/images/8c8c9b7f-9b9a-5e3e-9b9a-8c8c9b7f9b9a" alt="Наследие Есенина">
+                <div class="audio-title">Романс «Не жалею, не зову, не плачу»</div>
+                <!-- Локальное аудио -->
+                <audio controls class="audio-player">
+                    <source src="media/ne-zhaleyu.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио элемент.
+                </audio>
+                <div class="local-media-notice">
+                    Аудиофайл должен быть помещен в папку media/ne-zhaleyu.mp3
                 </div>
             </div>
         </div>
@@ -542,16 +628,16 @@
                 progressBar.style.width = `${progress}%`;
                 
                 // Пауза всех видео при смене слайда
-                pauseAllVideos();
+                pauseAllMedia();
             }
             
-            // Функция для паузы всех видео
-            function pauseAllVideos() {
+            // Функция для паузы всех медиа
+            function pauseAllMedia() {
                 document.querySelectorAll('video').forEach(video => {
                     video.pause();
                 });
-                document.querySelectorAll('iframe').forEach(iframe => {
-                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                document.querySelectorAll('audio').forEach(audio => {
+                    audio.pause();
                 });
             }
             
@@ -573,6 +659,25 @@
             document.addEventListener('keydown', () => {
                 clearInterval(autoSlideInterval);
             });
+            
+            // Проверка доступности локальных медиафайлов
+            function checkLocalMedia() {
+                const mediaElements = document.querySelectorAll('video, audio');
+                mediaElements.forEach(media => {
+                    media.addEventListener('error', function() {
+                        console.log(`Медиафайл не найден: ${this.src}`);
+                        // Можно показать плейсхолдер, если файл не найден
+                        const container = this.parentElement;
+                        const placeholder = container.querySelector('.video-placeholder');
+                        if (placeholder) {
+                            placeholder.style.display = 'flex';
+                        }
+                    });
+                });
+            }
+            
+            // Запуск проверки медиафайлов
+            checkLocalMedia();
         });
     </script>
 </body>
